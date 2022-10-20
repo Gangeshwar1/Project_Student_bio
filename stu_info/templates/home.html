@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Point</title>
+        
+        <style>
+        *{
+            margin: 0;
+            padding : 0;
+            font-family : century Gothic;
+        }
+        
+        header{
+            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url("https://wallpaperaccess.com/full/1209535.jpg");
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        ul{
+            float:right;
+            list-style-type: none;
+            margin-top: 25px;
+        
+        }
+        
+        ul li{
+            display: inline-block;
+        
+        }
+        ul li a{
+            text-decoration: none;
+            color: #fff;
+            padding:5px 20px;
+            border: 1px solid transparent;
+            transition: 0.6s ease;
+        }
+        ul li a:hover{
+            background-color: #fff ;
+            color:#000;
+        }
+        
+        ul li.active a{
+            background-color: #fff;
+            color:#000;
+        }
+        
+        
+        
+        .logo img{
+            float: left;
+            width: 300px;
+            height: 350px;
+        }
+        
+        .main{
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo{
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        
+        }
+        
+        .title{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        
+        }
+        .title h1{
+            color: rgb(255, 255, 255);
+            font-size: 70px;
+        }
+        .t h3{
+            position: absolute;
+            top: 56%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            color:wheat;
+            font-size: 20px;
+        }
+        .button{
+            position: absolute;
+            top: 62%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        
+        
+        }
+        .btn{
+            border: 1px solid #fff;
+            padding: 10px 30px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.6s ease;
+        
+        }
+        .btn:hover{
+            background-color: #fff;
+            color:#000;
+        
+        }
+        </style>
+            
+        
+    </head>
+    <body>
+        
+        <header>
+            {% if messages %}
+                  {% for message in messages %}
+                  <h3 {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
+                  {% endfor %}
+           {% endif %}
+           
+                <ul>
+                    <li class="active"><a href="#">Home</a> </li>
+                    <!-- <li><a href="#">Student Details</a> </li> -->
+                    <li><a href="#">About Us</a> </li>
+                    <li><a href="#">Contact</a> </li>
+                </ul>
+            </div>
+            <div id="logo" class="main">
+                <div class="logo">
+                    <img src="https://1.bp.blogspot.com/-sBGOM2kDLo0/YREB-srps5I/AAAAAAAAJI8/VFg16VYBPhwgPGkWdspen0EDqUNG8CrKACLcBGAsYHQ/s320/Girl-Student-Pointing-Transparent-Image.png" >
+                </div>
+            <div class="title">
+                <h1>Student Portal</h1>
+            </div>
+            <div class="t">
+                <h3></h3>
+            </div>
+            
+            <div class="button">
+                <a href="{% url 'signup' %}" class="btn">SIGNUP</a>
+                <a href="{% url 'signin' %}" class="btn">LOGIN</a>
+            </div>
+        </header>
+        
+    </body>
+</html>

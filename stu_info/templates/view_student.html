@@ -1,7 +1,6 @@
 <html>
     <head><br>
         <title>Student Information</title>
-
 <style>
     body {
     background: #67B26F;  / fallback for old browsers /
@@ -47,64 +46,134 @@
 <!-- Font Awesome CSS -->
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css'>
     </head>
-    <body style="background-color:blue;">
-        <h1 style="color:white; text-align:center;">Student Information</h1>
-       <form action="['students/view_student/(?P<stu_id>[0-9]+)\\Z']" method="POST">
-         {%csrf_token%}
+    <body style="background-color:#D2691E;">
+        <h1 style="color:white; text-align:center;"><u>Student Information</u></h1>
+       {% comment %} <form action="['students/view_student/(?P<stu_id>[0-9]+)\\Z']" method="POST"> {% endcomment %}
+       
         <div class="student-profile py-4">
             <div class="container">
               <div class="row">
-                <div class="col-lg-4">
-                  <div class="card shadow-sm">
-                    <div class="card-header bg-transparent text-center">
-                      <img class="profile_img" src="{{student_detail.image.url}}" alt="student dp">
-                    <h3>{{student_detail.name}}</h3>
-                    </div>
-                    <div class="card-body">
-                      <p class="mb-0"><strong class="pr-1">Student ID:</strong>{{student_detail.id}}</p>
-                      
-                    </div>
-                  </div>
-                </div>
                 <div class="col-lg-8">
-                  <div class="card shadow-sm">
+                  <div class="card shadow-sm" style="text-align: center;">
                     <div class="card-header bg-transparent border-0">
+                      <div class="card-header bg-transparent text-center">
+                        <span> <img class="profile_img" src="{{student_detail.image.url}}" alt="student dp"></span>
+                        <h3>{{student_detail.name}}</h3>
+                        <p class="mb-0"><strong class="pr-1">Student ID:</strong>{{student_detail.id}}</p>
+                      </div>
                       <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
                     </div>
+                    
                     <div class="card-body pt-0">
+                      <form action="{% url 'edit_view' %}" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" class="form-control" id="name" name="stu_id" value="{{student_detail.id}}" ><br>
+                       {%csrf_token%}
                       <table class="table table-bordered">
                         <tr>
                           <th width="30%" >Name</th>
                           <td width="2%">:</td>
-                          <td> {{student_detail.name}} </td>
+                          <td> <input type="text" class="form-control txt_Space" id="name" name="name" value="{{student_detail.name}}" required></td>
                         </tr>
                         <tr>
                           <th width="30%" >Standard</th>
                           <td width="2%">:</td>
-                          <td> {{student_detail.standard}} </td>
+                          <td><input type="text" class="form-control alpha_numeric" id="standard" name="standard" value="{{student_detail.standard}}" required> </td>
                         </tr>
                         <tr>
                           <th width="30%" >Roll No.</th>
                           <td width="2%">:</td>
-                          <td> {{student_detail.roll_no}} </td>
+                          <td><input type="text" class="form-control numbersOnly" id="roll_no" name="roll_no" value=" {{student_detail.roll_no}}" required> </td>
                         </tr>
                         <tr>
                           <th width="30%" >Email</th>
                           <td width="2%">:</td>
-                          <td>{{student_detail.email}}</td>
+                          <td><input type="text" class="form-control emailOnly" id="email" name="email" value="{{student_detail.email}}" required></td>
                          </tr>
                         <tr>
                           <th width="30%" >Mobile No.</th>
                           <td width="2%">:</td>
-                          <td>{{student_detail.phone}}</td>
+                          <td><input type="text" class="form-control numbersOnly" id="phone" name="phone" value="{{student_detail.phone}}" required></td>
+                          <span id="con"></span>
+                        </tr>
+                        <tr>
+                          <th width="30%">Image</th>
+                          <td width="2%">:</td>
+                          <td>
+                            <input type="file" class="form-control image_field" id="image" name="image">
+                            <span class="img_error"></span>
+                          </td>
+                          
                         </tr>
                        
                       </table>
+
+                      <button type="submit" class="btn btn-primary">Update</button>
+                      <a href="{% url 'index'%}" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+
+                    </form>
                     </div>
                   </div>
               </div>
             </div>
           </div>
-        </form>
+       
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+       <script>
+
+
+        $(document).ready(function(){
+
+          jQuery('.numbersOnly').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,'');
+        });
+      
+        jQuery('.txt_Space').keyup(function () {
+          this.value = this.value.replace(/[^a-zA-Z ]/g,'');
+          });
+        
+        jQuery('.alpha_numeric').keyup(function () {
+          this.value = this.value.replace(/[^a-zA-Z0-9]/g,'');
+          });
+          
+        jQuery('.emailOnly').keyup(function () { 
+          this.value = this.value.replace(/[^\w\.+@a-zA-Z_+?\.a-zA-Z\.]/g,'');
+          });
+          
+          $(".numbersOnly").keyup(function(){
+            var mobNum = $(this).val();
+       if(mobNum.length>10 || mobNum.length<10){
+           $('#con').html('Please enter 10 digit number');
+           $('#con').css('color', 'red');
+           return flase;
+       }else{
+           $('#con').html('Valid number');
+           $('#con').css('color', 'green');
+       }
+
+        });
+
+        $(".image_field").change(function(){
+          var ext = $('.image_field').val().split('.').pop().toLowerCase();
+              if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+                  $('.img_error').html('invalid extension!');
+                  $('.img_error').css('color','red');
+                  $('.image_field').val('');
+                  $('.image_field').attr("required", "true");
+              }else{
+                  $('.img_error').html('');
+                  $('.image_field').attr("required", "false");
+                
+              }
+          });
+
+
+
+
+          
+        });
+       </script>
+
+
     </body>
 </html>

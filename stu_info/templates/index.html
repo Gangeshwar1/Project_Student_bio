@@ -19,10 +19,17 @@
     }
     </style>
   </head>
-  <body><br>
+  <body style="background-image: url('https://img.freepik.com/premium-vector/blue-green-gradient-background-with-bokeh-effect_23-2148358651.jpg?w=2000');"><br>
     <h1 style="text-align:center;"><u>Welcome to Students Information</u></h1>
+      {% if messages %}
+            {% for message in messages %}
+            <h3 {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
+            {% endfor %}
+      {% endif %}
     <button type="button" class="btn btn-success student_add">
       <a href="add_student/" style="color:white;">Add</a></button>
+      <button type="button" class="btn btn-danger btn-sm">
+        <a href="{% url 'logout' %}" style="color:white;" > Logout</a></button><br>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -32,7 +39,9 @@
           <th scope="col">Roll Number</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
+          <th scope="col">Gender</th>
           <th scope="col">Image</th>
+          
           <th scope="col">Activity</th>
         </tr>
       </thead>
@@ -45,7 +54,10 @@
           <td>{{stu.roll_no}}</td>
           <td>{{stu.email}}</td>
           <td>{{stu.phone}}</td>
-          <td><img src="{{ stu.image.url }}" style="width: 100px; height: 75px;"></td>
+          <td>{{stu.gender}}</td>
+          
+          <td><img src="{% if stu.image %} {{stu.image.url}} {% else %} https://picsum.photos/200/300 {% endif %}" style="width: 100px; height: 75px; "></td>
+          
           <th scope="row">
             <button type="button" class="btn btn-primary">
               <a href="edit_student/{{stu.id}}" style="color:white;">Edit </a></button>
@@ -56,6 +68,7 @@
           </th>
         </tr>
          {% endfor %}
+         <br>
       </tbody>
     </table>
 
